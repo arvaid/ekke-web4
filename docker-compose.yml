@@ -1,0 +1,15 @@
+version: '3.3'
+services:
+  db:
+    image: 'mysql:8'
+    command: '--default-authentication-plugin=mysql_native_password'
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: library
+    volumes:
+      - './mycustom.cnf:/etc/mysql/conf.d/custom.cnf'
+      - './library_create.sql:/docker-entrypoint-initdb.d/00-library_create.sql'
+      - './library_data.sql:/docker-entrypoint-initdb.d/01-library_data.sql'
+    ports:
+      - '127.0.0.1:3306:3306'

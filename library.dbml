@@ -1,0 +1,23 @@
+Table Books as B {
+    isbn char(13) [pk, not null]
+    title varchar [not null]
+    author int [ref: > A.id, not null]    
+}
+
+Table Authors as A {
+    id int [pk, increment, not null]
+    name varchar [not null]
+}
+
+Table Readers as R {
+    id int [pk, increment]
+    name varchar [not null]
+    registration_date datetime [not null]
+}
+
+Table Readers_Books as RB {
+    isbn char(13) [pk, ref: > B.isbn]
+    reader_id int [pk, ref: > R.id]
+    borrowed_date datetime [pk, not null]
+    returned_date datetime
+}

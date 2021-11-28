@@ -13,3 +13,25 @@ services:
       - './library_data.sql:/docker-entrypoint-initdb.d/01-library_data.sql'
     ports:
       - '127.0.0.1:3306:3306'
+  backend:
+    image: 'node:8'
+    user: 'node'
+    working_dir: /home/node/app
+    environment:
+      DB_HOST: db
+    volumes:
+      - ./backend/:/home/node/app
+    ports:
+      - '127.0.0.1:4000:4000'
+    command: "npm start"
+    depends_on:
+      - db
+  frontend:
+    image: 'node:8'
+    user: 'node'
+    working_dir: /home/node/app
+    volumes:
+      - ./frontend/:/home/node/app
+    ports:
+      - '127.0.0.1:3000:3000'
+    command: "npm start"

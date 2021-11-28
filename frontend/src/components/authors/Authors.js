@@ -26,18 +26,20 @@ const Authors = () => {
             if (res.status === 200) {
                 setAuthors(authors.filter(author => author.id !== id));
             } else {
-                throw res.json();
+                let msg = '';
+                res.json().then(data => msg = data.message);
+                throw new Error(`Hiba a törlés során: ${msg}`);
             }
-            return res.json()
         }).catch(err => {
-            // TODO: this doesn't work
-            setErrors([...errors, err]);
+            setErrors(...errors, err.message);
         });
     }
 
     if (isLoaded) {
         return (
             <div>
+                {errors}
+
                 <div className='row align-items-bottom'>
                     <div className='col-md-8'>
                         <h1>Szerzők</h1>

@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {useNavigate, useLocation, useParams} from "react-router-dom";
+import config from "../../config";
 
 const AuthorForm = () => {
     const [errors, setErrors] = useState([]);
@@ -9,7 +10,7 @@ const AuthorForm = () => {
     let name = location.state ? location.state.author.name : '';
 
     const handleSubmit = (e) => {
-        const url = location.state ? `http://localhost:4000/authors/${id}` : `http://localhost:4000/authors`;
+        const url =  `${config.API_URL}/authors/${location.state ? id : ''}`;
         const method = location.state ? 'PUT' : 'POST';
 
         const author = {id: id, name: name};

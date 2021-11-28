@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 
 import Loading from "../Loading";
+import config from "../../config";
 
 const Authors = () => {
     const [isLoaded, setIsLoaded] = useState(false);
@@ -10,7 +11,7 @@ const Authors = () => {
 
     useEffect(() => {
         if (!isLoaded) {
-            const url = "http://localhost:4000/authors";
+            const url = `${config.API_URL}/authors`;
             fetch(url)
                 .then(res => res.json())
                 .then(data => setAuthors(data))
@@ -19,7 +20,7 @@ const Authors = () => {
     });
 
     function deleteAuthor(id) {
-        const url = `http://localhost:4000/authors/${id}`;
+        const url = `${config.API_URL}/authors/${id}`;
         fetch(url, {
             method: 'DELETE'
         }).then(res => {

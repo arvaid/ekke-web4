@@ -55,6 +55,7 @@ router.post('/', async (req, res) => {
         const author = {
             name: req.body.name
         };
+
         const [results] = await service.create(author);
 
         if (results.affectedRows === 1) {
@@ -80,13 +81,6 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-    if (!req.body.name) {
-        res.status(400).json({
-            message: "Name is required"
-        });
-        return;
-    }
-
     const id = req.params.id;
 
     try {

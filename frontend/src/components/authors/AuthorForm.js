@@ -24,11 +24,9 @@ const AuthorForm = () => {
             if (res.status === 200) {
                 navigate('/authors');
             } else if (res.message) {
-                throw new Error(`Hiba: ${res.message}`);
+                setErrors([...errors, `Hiba!`]);
             }
-        }).catch(err => {
-            setErrors(...errors, err.message);
-        });
+        }).catch(() => {});
 
         e.preventDefault();
     }

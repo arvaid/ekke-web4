@@ -27,13 +27,9 @@ const Authors = () => {
             if (res.status === 200) {
                 setAuthors(authors.filter(author => author.id !== id));
             } else {
-                let msg = '';
-                res.json().then(data => msg = data.message);
-                throw new Error(`Hiba a törlés során: ${msg}`);
+                setErrors([...errors, `Hiba a törlés során!`]);
             }
-        }).catch(err => {
-            setErrors(...errors, err.message);
-        });
+        }).catch(() => {});
     }
 
     if (isLoaded) {

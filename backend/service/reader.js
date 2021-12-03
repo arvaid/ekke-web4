@@ -1,9 +1,9 @@
 exports.findAll = async () => {
-    return db.query("SELECT * FROM `Readers`");
+    return db.query("SELECT `id`, `name`, DATE_FORMAT(`registration_date`, '%Y-%m-%d %H:%i:%s') as `registration_date` FROM `Readers`");
 }
 
 exports.findById = async (id) => {
-    return db.query("SELECT * FROM `Readers` WHERE `id` = ?", [id]);
+    return db.query("SELECT `id`, `name`, DATE_FORMAT(`registration_date`, '%Y-%m-%d %H:%i:%s') as `registration_date` FROM `Readers` WHERE `id` = ?", [id]);
 }
 
 exports.create = async (reader) => {

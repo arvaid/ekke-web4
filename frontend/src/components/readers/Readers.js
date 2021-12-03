@@ -1,40 +1,40 @@
 import React, {useEffect, useState} from "react";
-import {Link} from "react-router-dom";
 
 import Loading from "../Loading";
 import config from "../../config";
+import {Link} from "react-router-dom";
 
-const Authors = () => {
+const Readers = () => {
     const [isLoaded, setIsLoaded] = useState(false);
-    const [authors, setAuthors] = useState([]);
+    const [readers, setReaders] = useState([]);
     const [errors, setErrors] = useState([]);
 
     useEffect(() => {
-        if (!isLoaded) {
-            const url = `${config.API_URL}/authors`;
-            fetch(url)
-                .then(res => res.json())
-                .then(data => setAuthors(data))
-                .then(() => setIsLoaded(true));
-        }
+       if (!isLoaded) {
+           const url = `${config.API_URL}/readers`;
+           fetch(url)
+               .then(res => res.json())
+               .then(data => setReaders(data))
+               .then(() => setIsLoaded(true));
+       }
     });
 
-    function deleteAuthor(id) {
-        const url = `${config.API_URL}/authors/${id}`;
+    function deleteReader(id) {
+        const url = `${config.API_URL}/readers/${id}`;
         fetch(url, {
             method: 'DELETE'
         }).then(res => {
             if (res.status === 200) {
-                setAuthors(authors.filter(author => author.id !== id));
+                setReaders(readers.filter(reader => reader.id !== id));
             } else {
-                setErrors([...errors, `Hiba a törlés során!`]);
+                setErrors([...errors, 'Hiba a törlés során!']);
             }
         }).catch(() => {
         });
     }
 
     if (!isLoaded) {
-        return <Loading/>;
+        return <Loading/>
     }
 
     return (
@@ -43,11 +43,11 @@ const Authors = () => {
 
             <div className='row align-items-bottom'>
                 <div className='col-md-8'>
-                    <h1>Szerzők</h1>
+                    <h1>Olvasók</h1>
                 </div>
                 <div className='col-md-4 text-right'>
                     {/* TODO: align bottom-right */}
-                    <Link to='/authors/new' className='btn btn-primary'>
+                    <Link to='/readers/new' className='btn btn-primary'>
                         <strong><i className="bi bi-plus-lg"/>&nbsp;Új hozzáadása</strong>
                     </Link>
                 </div>
@@ -57,17 +57,19 @@ const Authors = () => {
                 <tr>
                     <th>#</th>
                     <th>Név</th>
+                    <th>Regisztrált</th>
                     <th className='text-center'>Műveletek</th>
                 </tr>
                 </thead>
                 <tbody>
 
-                {authors.map((author, index) =>
-                    <tr key={author.id}>
+                {readers.map((reader, index) =>
+                    <tr key={reader.id}>
                         <td>{index + 1}</td>
-                        <td>{author.name}</td>
+                        <td>{reader.name}</td>
+                        <td>{reader.registration_date}</td>
                         <td className='text-center'>
-                            <Link to={`/authors/${author.id}`} state={{author: author}}
+                            <Link to={`/readers/${reader.id}`} state={{reader: reader}}
                                   className='btn btn-outline-primary btn-sm'>
                                 <i className="bi bi-pencil-fill"/>&thinsp;
                                 Módosít
@@ -75,7 +77,7 @@ const Authors = () => {
                             &nbsp;
 
                             <button className='btn btn-outline-danger btn-sm'
-                                    onClick={() => deleteAuthor(author.id)}>
+                                    onClick={() => deleteReader(reader.id)}>
                                 <i className="bi bi-trash-fill"/>&thinsp;
                                 Töröl
                             </button>
@@ -88,4 +90,4 @@ const Authors = () => {
     );
 }
 
-export default Authors;
+export default Readers;

@@ -4,28 +4,28 @@ import {Link} from "react-router-dom";
 import Loading from "../Loading";
 import config from "../../config";
 
-const Authors = () => {
+const Books = () => {
     const [isLoaded, setIsLoaded] = useState(false);
-    const [authors, setAuthors] = useState([]);
+    const [books, setBooks] = useState([]);
     const [errors, setErrors] = useState([]);
 
     useEffect(() => {
-        if (!isLoaded) {
-            const url = `${config.API_URL}/authors`;
-            fetch(url)
-                .then(res => res.json())
-                .then(data => setAuthors(data))
-                .then(() => setIsLoaded(true));
-        }
+       if (!isLoaded) {
+           const url = `${config.API_URL}/books`;
+           fetch(url)
+               .then(res => res.json())
+               .then(data => setBooks(data))
+               .then(() => setIsLoaded(true));
+       }
     });
 
-    function deleteAuthor(id) {
-        const url = `${config.API_URL}/authors/${id}`;
+    function deleteBook(isbn) {
+        const url = `${config.API_URL}/books/${isbn}`;
         fetch(url, {
             method: 'DELETE'
         }).then(res => {
             if (res.status === 200) {
-                setAuthors(authors.filter(author => author.id !== id));
+                setBooks(books.filter(book => book.isbn !== isbn));
             } else {
                 setErrors([...errors, `Hiba a törlés során!`]);
             }
@@ -39,15 +39,14 @@ const Authors = () => {
 
     return (
         <div>
-            {errors}
 
             <div className='row align-items-bottom'>
                 <div className='col-md-8'>
-                    <h1>Szerzők</h1>
+                    <h1>Könyvek</h1>
                 </div>
                 <div className='col-md-4 text-right'>
                     {/* TODO: align bottom-right */}
-                    <Link to='/authors/new' className='btn btn-primary'>
+                    <Link to='/books/new' className='btn btn-primary'>
                         <strong><i className="bi bi-plus-lg"/>&nbsp;Új hozzáadása</strong>
                     </Link>
                 </div>
@@ -56,18 +55,23 @@ const Authors = () => {
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>Név</th>
+                    <th>ISBN</th>
+                    <th>Cím</th>
+                    <th>Szerző</th>
                     <th className='text-center'>Műveletek</th>
                 </tr>
                 </thead>
                 <tbody>
 
-                {authors.map((author, index) =>
-                    <tr key={author.id}>
+                {books.map((book, index) =>
+
+                    <tr key={book.isbn}>
                         <td>{index + 1}</td>
-                        <td>{author.name}</td>
+                        <td>{book.isbn}</td>
+                        <td>{book.title}</td>
+                        <td>{book.author.name}</td>
                         <td className='text-center'>
-                            <Link to={`/authors/${author.id}`} state={{author: author}}
+                            <Link to={`/books/${book.isbn}`} state={{book: book}}
                                   className='btn btn-outline-primary btn-sm'>
                                 <i className="bi bi-pencil-fill"/>&thinsp;
                                 Módosít
@@ -75,7 +79,7 @@ const Authors = () => {
                             &nbsp;
 
                             <button className='btn btn-outline-danger btn-sm'
-                                    onClick={() => deleteAuthor(author.id)}>
+                                    onClick={() => deleteBook(book.isbn)}>
                                 <i className="bi bi-trash-fill"/>&thinsp;
                                 Töröl
                             </button>
@@ -88,4 +92,4 @@ const Authors = () => {
     );
 }
 
-export default Authors;
+export default Books;

@@ -7,8 +7,14 @@ const Navbar = () => {
 
     return (
         <nav className='nav justify-content-center'>
+            <NavLink to='/books' className={isActive => isActive ? `${normalClass} ${activeClass}` : normalClass}>
+                Könyvek
+            </NavLink>
             <NavLink to='/authors' className={isActive => isActive ? `${normalClass} ${activeClass}` : normalClass}>
                 Szerzők
+            </NavLink>
+            <NavLink to='/readers' className={isActive => isActive ? `${normalClass} ${activeClass}` : normalClass}>
+                Olvasók
             </NavLink>
         </nav>
     );

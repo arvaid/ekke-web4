@@ -38,7 +38,7 @@ const AuthorForm = () => {
     return (
         <div>
             {errors}
-            <h1>Szerkesztés</h1>
+            <h1>{location.state ? 'Szerkesztés' : 'Új szerző'}</h1>
             <form>
                 <div className="mb-3">
                     <label htmlFor="authorName" className="form-label">Név</label>

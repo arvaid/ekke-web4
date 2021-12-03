@@ -110,7 +110,7 @@ router.post('/', async (req, res) => {
 
 router.put('/:isbn', async (req, res) => {
     const isbn = req.params.isbn;
-    const title = req.body.params;
+    const title = req.body.title;
     const author = req.body.author;
 
     try {
@@ -122,7 +122,7 @@ router.put('/:isbn', async (req, res) => {
             const data = {
                 isbn: isbn || book.isbn,
                 title: title || book.title,
-                author: author || book.author
+                author: author || {id: book.id}
             }
 
             const [result] = await service.update(isbn, data);
